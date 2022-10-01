@@ -1,0 +1,9 @@
+
+.card-action:hover {
+  transform: translateY(-8px);
+  box-shadow: 5px 5px 10px rgba(106, 179, 247, 0.349);
+  transition: 0.3s ease-in-out;
+}
+.card-action {
+  transition: 0.3s ease-in-out;
+}

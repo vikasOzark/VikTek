@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.15.6/dist/css/uikit.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'main_project/css/get-started.css' %}">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'main_project/images/favicon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'main_project/images/favicon.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'main_project/images/favicon.png' %}">
+    <link rel="manifest" href="{% static 'main_project/images/favicon.png' %}">
+
+    <link rel="icon" type="image/x-icon" href="{% static 'main_project/images/favicon.png' %}">
+
+  </head>
+<body style="height: 100vh;">
+    <header class="bg-white dark:bg-gray-900">
+        <nav x-data="{ isOpen: false }" class="relative bg-white dark:bg-gray-900">
+            <div class="container px-6 py-4 mx-auto md:flex md:justify-between md:items-center">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <a class="text-2xl font-bold text-gray-800 transition-colors duration-300 transform dark:text-white lg:text-3xl hover:text-gray-700 dark:hover:text-gray-300" href="{% url 'index' %}">VixTec<span class="text-green-400">.io</span></a>
+                    </div>
+        
+                    <!-- Mobile menu button -->
+                    <div class="flex md:hidden">
+                        <button x-cloak @click="isOpen = !isOpen" type="button" class="text-gray-500 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 focus:outline-none focus:text-gray-600 dark:focus:text-gray-400" aria-label="toggle menu">
+                            <svg x-show="!isOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
+                            </svg>
+    
+                            <svg x-show="isOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+        
+                <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
+                <div x-cloak :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']" class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent md:mt-0 md:p-0 md:top-0 md:relative md:w-auto md:opacity-100 md:translate-x-0 md:flex md:items-center">
+                    <div class="flex flex-col md:flex-row md:mx-6">
+                        <a class="my-2 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0" href="{% url 'index' %}">Home</a>
+                        <a class="my-2 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0" href="/#services">Services</a>
+                        <a class="my-2 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0" href="{% url 'contact' %}">Contact us</a>
+                        <a class="w-full tracking-wider px-6 py-2.5  text-sm text-white uppercase transition-colors duration-300 transform bg-blue-600 rounded-md lg:w-auto hover:bg-blue-500 focus:outline-none focus:bg-blue-500 text-decoration-none " href="{% url 'get_started' %}">Get started</a>
+  
+                    </div>
+        
+                </div>
+            </div>
+        </nav>
+    <div class="m-1 position-absolute " style="z-index: 1;"id="notify"></div>
+
+
+    </header>
+
+{% block content %}
+{% endblock %}
+
+   
+<footer class="flex justify-center px-4 text-gray-800 bg-white dark:text-white dark:bg-gray-900 mt-3">
+    <div class="container py-6">
+        <h1 class="text-lg font-bold text-center lg:text-2xl">
+            Millions <br> of business runing online and enjoying the benifit of the internet. 
+        </h1>
+
+        
+
+        <div class="flex justify-content-center mt-6 {% block display_contact %}{% endblock %}">
+            <div class="bg-white border rounded-md focus-within:ring dark:bg-gray-900 dark:border-gray-700 focus-within:border-blue-400 focus-within:ring-blue-300 focus-within:ring-opacity-40 dark:focus-within:border-blue-300">
+                <div class="flex flex-wrap justify-between md:flex-row">
+                    <input type="email" class="p-2 m-1 text-sm text-gray-700 bg-transparent appearance-none focus:outline-none focus:placeholder-transparent" placeholder="Enter your email" aria-label="Enter your email">
+                    <button class="w-full px-3 py-2 m-1 text-sm font-medium tracking-wider text-white uppercase transition-colors duration-300 transform bg-gray-800 rounded-md dark:hover:bg-gray-600 dark:bg-gray-800 lg:w-auto hover:bg-gray-700">Contact now</button>
+                </div>
+            </div>
+        </div>
+
+        <hr class="h-px mt-6 bg-gray-200 border-none dark:bg-gray-700">
+
+        <div class="flex flex-col items-center justify-between mt-6 md:flex-row">
+            <div>
+              <a class="text-2xl font-bold text-gray-800 transition-colors duration-300 transform dark:text-white lg:text-3xl hover:text-gray-700 dark:hover:text-gray-300" href="#">VixTec<span class="text-green-400">.io</span></a>
+            </div>
+
+            <div class="flex mt-4 md:m-0">
+                <div class="-mx-4">
+                    <a href="#" class="px-4 text-sm font-medium text-gray-600 transition-colors duration-300 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 hover:underline">About</a>
+                    <a href="#" class="px-4 text-sm font-medium text-gray-600 transition-colors duration-300 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 hover:underline">News</a>
+                    <a href="#" class="px-4 text-sm font-medium text-gray-600 transition-colors duration-300 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 hover:underline">Contact</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="{% static 'main_project/js/script.js' %}"></script>
+    <script src="uikit/dist/js/uikit-icons.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.15.6/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.15.6/dist/js/uikit-icons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/modal.min.js" integrity="sha512-aAW/TaSuYfyjTcMsaYP67Dwe0vI5d7ej9X7NJBPkhafB+D5kx57flRNo8+tOXWA0Gcq0MBmhPatrvn1YwvH9gQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  </body>
+</html>

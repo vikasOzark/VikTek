@@ -1,0 +1,128 @@
+{% extends 'main_project/base.html' %}
+{% load static %}
+{% block title %} Final step {% endblock %}
+{% block content %}
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'main_project/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'main_project/css/get-started.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.15.6/dist/css/uikit.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <div class="container">
+        <section class="max-w-4xl p-6 mx-auto rounded-md shadow-md dark:bg-gray-800 mb-5 mt-5 border border-primary border-2 shadow">
+            <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white">Finalizing project</h2>
+        
+            <form method="post" id="form">
+                {% csrf_token %}
+                <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+                    <div>
+                        <label class="text-gray-700 dark:text-gray-200" for="username">Project type</label>
+                        <input id="project_type" name="project_type" type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring " value='{{type}}' disabled>
+                    </div>
+        
+                    <div>
+                        <label class="text-gray-700 dark:text-gray-200" for="emailAddress">Email Address</label>
+                        <input id="emailaddress" name="email" type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring " >
+                    </div>
+        
+                    <div>
+                        <label class="text-gray-700 dark:text-gray-200" for="password">Tell us about service</label>
+                        <textarea name="message" id="message" class="uk-textarea rounded-3 mt-1" rows="5" placeholder=""></textarea>
+                    </div>
+        
+                    
+                </div>
+        
+                <div class="flex justify-end mt-6">
+                    <a class="text-decoration-none px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600 " id="final_btn">Final step
+                        <div class="visually-hidden" id="spinner" uk-spinner="ratio:.5"></div>
+                    </a>
+                </div>
+            </form>
+        </section>
+    </div>
+    
+<script>
+    const final_btn = document.getElementById('final_btn');
+    final_btn.addEventListener('click', function(e){
+        $('#notify').html('');
+        $('#spinner').removeClass('visually-hidden');
+        var data = {
+            'project_type' : $('#project_type').val(),
+            'email' : $('#emailaddress').val(),
+            'message' : $('#message').val(),
+        };
+
+  console.log(data)
+
+  $.ajax({
+    url : "{% url 'project_req' %}",
+    method : 'post',
+    headers:{
+        "X-CSRFToken": '{{ csrf_token }}'
+         },
+    data : data,
+    dataType:'json',
+
+    success: function(data){
+
+        if (data['status'] === 200 ){
+
+            console.log(data)
+            var success_notify = `
+            <div class="flex w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800 border">
+                <div class="flex items-center justify-center w-12 bg-emerald-500">
+                    <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z" />
+                    </svg>
+                </div>
+            
+                <div class="px-4 py-2 -mx-3">
+                    <div class="mx-3">
+                        <span class="font-semibold text-emerald-500 dark:text-emerald-400">Success</span>
+                        <p class="text-sm text-gray-600 dark:text-gray-200 m-1 p-0">Thanks ! we got your request.</p>
+                    </div>
+                </div>
+            </div>
+            `
+                $('#spinner').addClass('visually-hidden');
+                $('#notify').html(success_notify)
+                $('#form').trigger('reset')
+        } else if(data['status'] === 400 ) {
+
+        console.log(data)
+            var success_notify = `
+            <div class="flex w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800 border">
+                <div class="flex items-center justify-center w-12 bg-blue-500">
+                    <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM21.6667 28.3333H18.3334V25H21.6667V28.3333ZM21.6667 21.6666H18.3334V11.6666H21.6667V21.6666Z" />
+                    </svg>
+                </div>
+
+                <div class="px-4 py-2 -mx-3">
+                    <div class="mx-3">
+                        <span class="font-semibold text-blue-500 dark:text-blue-400">Info</span>
+                        <p class="text-sm text-gray-600 dark:text-gray-200 m-1 p-0">Please fill all the feilds !</p>
+                    </div>
+                </div>
+            </div>
+            `
+            $('#spinner').addClass('visually-hidden');
+            $('#notify').html(success_notify)
+            $('#form').trigger('reset')
+
+
+        }
+
+
+    },
+    
+  })
+  
+})
+</script>
+{% endblock %}
+{% block display_contact %}d-none{% endblock %}
